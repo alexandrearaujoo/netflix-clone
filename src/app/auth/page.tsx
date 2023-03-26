@@ -3,6 +3,8 @@
 import { signIn } from 'next-auth/react';
 import { useRouter } from 'next/navigation';
 import { ChangeEvent, useCallback, useState } from 'react';
+import { FaGithub } from 'react-icons/fa';
+import { FcGoogle } from 'react-icons/fc';
 
 import Input from '@/components/Input';
 
@@ -18,24 +20,29 @@ export default function Auth() {
     setVariant((current) => (current === 'login' ? 'register' : 'login'));
   }, []);
 
+  const login = useCallback(async () => {
+    const { email, password } = user;
+    try {
+      await signIn('credentials', {
+        email,
+        password,
+        redirect: false,
+        callbackUrl: '/'
+      });
+      router.push('/profiles');
+    } catch (error) {
+      console.log(error);
+    }
+  }, [router, user]);
+
   const register = useCallback(async () => {
     try {
       await axios.post('/api/register', user);
+      login();
     } catch (error) {
       console.log(error);
     }
-  }, [user]);
-
-  const login = useCallback(async () => {
-    try {
-      await signIn('credentials', {
-        email: user.email,
-        password: user.password
-      });
-    } catch (error) {
-      console.log(error);
-    }
-  }, [user]);
+  }, [user, login]);
 
   return (
     <main className="relative h-full w-full bg-[url('/images/hero.jpg')] bg-no-repeat bg-center bg-fixed bg-cover">
@@ -98,6 +105,20 @@ export default function Auth() {
             >
               {variant === 'login' ? 'Login' : 'Sign up'}
             </button>
+            <div className="flex flex-row items-center gap-4 mt-8 justify-center">
+              <button
+                onClick={() => signIn('google', { callbackUrl: '/' })}
+                className="w-10 h-10 bg-white rounded-full flex items-center justify-center cursor-pointer hover:opacity-80 transition"
+              >
+                <FcGoogle size={32} />
+              </button>
+              <button
+                onClick={() => signIn('github', { callbackUrl: '/' })}
+                className="w-10 h-10 bg-white rounded-full flex items-center justify-center cursor-pointer hover:opacity-80 transition"
+              >
+                <FaGithub size={32} />
+              </button>
+            </div>
             <p className="text-neutral-500 mt-12">
               {variant === 'login'
                 ? 'First time using Netflix ?'
