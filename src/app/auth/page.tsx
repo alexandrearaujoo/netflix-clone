@@ -1,17 +1,41 @@
 'use client';
 
+import { signIn } from 'next-auth/react';
+import { useRouter } from 'next/navigation';
 import { ChangeEvent, useCallback, useState } from 'react';
 
 import Input from '@/components/Input';
 
+import axios from 'axios';
+
 export default function Auth() {
-  const [user, setUser] = useState({ username: '', email: '', password: '' });
+  const router = useRouter();
+  const [user, setUser] = useState({ name: '', email: '', password: '' });
 
   const [variant, setVariant] = useState('login');
 
   const toggleVariant = useCallback(() => {
     setVariant((current) => (current === 'login' ? 'register' : 'login'));
   }, []);
+
+  const register = useCallback(async () => {
+    try {
+      await axios.post('/api/register', user);
+    } catch (error) {
+      console.log(error);
+    }
+  }, [user]);
+
+  const login = useCallback(async () => {
+    try {
+      await signIn('credentials', {
+        email: user.email,
+        password: user.password
+      });
+    } catch (error) {
+      console.log(error);
+    }
+  }, [user]);
 
   return (
     <main className="relative h-full w-full bg-[url('/images/hero.jpg')] bg-no-repeat bg-center bg-fixed bg-cover">
@@ -33,11 +57,11 @@ export default function Auth() {
                     setUser((prev) => ({
                       email: prev.email,
                       password: prev.password,
-                      username: e.target.value
+                      name: e.target.value
                     }))
                   }
                   type="text"
-                  value={user.username}
+                  value={user.name}
                 />
               )}
 
@@ -48,7 +72,7 @@ export default function Auth() {
                   setUser((prev) => ({
                     email: e.target.value,
                     password: prev.password,
-                    username: prev.username
+                    name: prev.name
                   }))
                 }
                 type="email"
@@ -61,14 +85,17 @@ export default function Auth() {
                   setUser((prev) => ({
                     email: prev.email,
                     password: e.target.value,
-                    username: prev.username
+                    name: prev.name
                   }))
                 }
                 type="password"
                 value={user.password}
               />
             </div>
-            <button className="bg-red-600 py-3 text-white rounded-md w-full mt-10 hover:bg-red-700 transition">
+            <button
+              onClick={variant === 'login' ? login : register}
+              className="bg-red-600 py-3 text-white rounded-md w-full mt-10 hover:bg-red-700 transition"
+            >
               {variant === 'login' ? 'Login' : 'Sign up'}
             </button>
             <p className="text-neutral-500 mt-12">
