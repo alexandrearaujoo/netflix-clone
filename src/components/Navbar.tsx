@@ -1,3 +1,6 @@
+'use client';
+
+import { useRouter } from 'next/navigation';
 import { useCallback, useEffect, useState } from 'react';
 import { BsChevronDown, BsSearch, BsBell } from 'react-icons/bs';
 
@@ -11,6 +14,7 @@ export default function Navbar() {
   const [showMobileMenu, setShowMobileMenu] = useState(false);
   const [showAccountMenu, setShowAccountMenu] = useState(false);
   const [showBackground, setShowBackground] = useState(false);
+  const router = useRouter();
 
   const toggleMobileMenu = useCallback(() => {
     setShowMobileMenu(!showMobileMenu);
@@ -43,17 +47,22 @@ export default function Navbar() {
           showBackground ? 'bg-zinc-900 bg-opacity-90' : ''
         }`}
       >
-        <img src="/images/logo.png" alt="Netflix Logo" className="h-4 lg:h-7" />
+        <img
+          src="/images/logo.png"
+          alt="Netflix Logo"
+          className="h-4 lg:h-7 cursor-pointer"
+          onClick={() => router.push('/')}
+        />
         <ul className="flex-row ml-8 gap-7 hidden lg:flex">
           {[
-            'Home',
-            'Series',
-            'Films',
-            'New & Popular',
-            'My list',
-            'Browse by language'
-          ].map((label) => (
-            <NavbarItem key={label} label={label} />
+            { label: 'Home', navigate: '/' },
+            { label: 'Series', navigate: '/' },
+            { label: 'Films', navigate: '/' },
+            { label: 'New & Popular', navigate: '/' },
+            { label: 'My list', navigate: '/mylist' },
+            { label: 'Browse by language', navigate: '/' }
+          ].map(({ label, navigate }) => (
+            <NavbarItem key={label} label={label} navigate={navigate} />
           ))}
         </ul>
         <div

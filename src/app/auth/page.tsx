@@ -1,6 +1,7 @@
 'use client';
 
-import { signIn } from 'next-auth/react';
+import { signIn, useSession } from 'next-auth/react';
+import { redirect } from 'next/navigation';
 import { useCallback, useState } from 'react';
 import { useForm } from 'react-hook-form';
 import { FaGithub } from 'react-icons/fa';
@@ -13,8 +14,12 @@ import { zodResolver } from '@hookform/resolvers/zod';
 import axios from 'axios';
 
 export default function Auth() {
+  const { status } = useSession();
   const [variant, setVariant] = useState('login');
 
+  if (status === 'authenticated') {
+    redirect('/');
+  }
   const toggleVariant = useCallback(() => {
     setVariant((current) => (current === 'login' ? 'register' : 'login'));
   }, []);

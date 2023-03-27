@@ -1,8 +1,11 @@
+import { useRouter } from 'next/navigation';
+
 interface MobileMenuProps {
   visible?: boolean;
 }
 
 export default function MobileMenu({ visible }: MobileMenuProps) {
+  const router = useRouter();
   if (!visible) {
     return null;
   }
@@ -12,14 +15,18 @@ export default function MobileMenu({ visible }: MobileMenuProps) {
       <div className="flex flex-col gap-4">
         <ul className="px-3 text-center text-white">
           {[
-            'Home',
-            'Series',
-            'Films',
-            'New & Popular',
-            'My list',
-            'Browsw by language'
-          ].map((label) => (
-            <li className="transition hover:underline" key={label}>
+            { label: 'Home', navigate: '/' },
+            { label: 'Series', navigate: '/' },
+            { label: 'Films', navigate: '/' },
+            { label: 'New & Popular', navigate: '/' },
+            { label: 'My list', navigate: '/mylist' },
+            { label: 'Browse by language', navigate: '/' }
+          ].map(({ label, navigate }) => (
+            <li
+              className="transition hover:underline"
+              key={label}
+              onClick={() => router.push(navigate)}
+            >
               {label}
             </li>
           ))}

@@ -20,7 +20,10 @@ module.exports = {
             mask: "linear-gradient(-60deg,#000 30%,#0009,#000 70%) left/600% 100%",
           },
         },
-      }
+      },
+      gridTemplateColumns: {
+        "auto-fit": "repeat(auto-fit, minmax(20rem, 1fr))",
+      },
     },
   },
   plugins: [],

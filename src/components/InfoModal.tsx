@@ -17,11 +17,12 @@ export default function InfoModal({ onClose, visible }: InfoModalProps) {
 
   const { movieId } = useInfoModal();
 
-  const { data = {} } = useMovie(movieId!);
+  const { data = {}, isLoading } = useMovie(movieId!);
 
   useEffect(() => {
+    if (isLoading) return;
     setIsVisible(!!visible);
-  }, [visible]);
+  }, [visible, isLoading]);
 
   const handleClose = useCallback(() => {
     setIsVisible(false);
