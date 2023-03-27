@@ -12,6 +12,7 @@
     "eslint:recommended",
     "plugin:react/recommended",
     "plugin:@typescript-eslint/recommended",
+    "next/core-web-vitals",
     "plugin:prettier/recommended",
     "prettier"
   ],
@@ -29,6 +30,7 @@
   ],
   "ignorePatterns": ["*.config.js"],
   "rules": {
+    "@next/next/no-img-element": "off",
     "react-hooks/rules-of-hooks": "error",
     "react-hooks/exhaustive-deps": "warn",
     "prettier/prettier": "error",

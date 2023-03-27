@@ -1,25 +1,26 @@
-interface InputProps {
+import {
+  InputHTMLAttributes,
+  forwardRef,
+  ForwardRefRenderFunction
+} from 'react';
+
+interface InputProps extends InputHTMLAttributes<HTMLInputElement> {
   id: string;
-  onChange: any;
-  value: string;
   label: string;
   type?: string;
 }
 
-export default function Input({
-  id,
-  label,
-  onChange,
-  value,
-  type
-}: InputProps) {
+const InputDefault: ForwardRefRenderFunction<HTMLInputElement, InputProps> = (
+  { id, label, type, ...rest },
+  ref
+) => {
   return (
     <div className="relative">
       <input
         id={id}
-        value={value}
         type={type}
-        onChange={onChange}
+        ref={ref}
+        {...rest}
         className="block rounded-md px-6 pt-6 pb-1 w-full text-md text-white bg-neutral-700 appearance-none focus:outline-none focus:ring-0 peer"
         placeholder=" "
       />
@@ -31,4 +32,6 @@ export default function Input({
       </label>
     </div>
   );
-}
+};
+
+export const Input = forwardRef(InputDefault);
