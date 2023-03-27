@@ -3,6 +3,7 @@
 import { useSession } from 'next-auth/react';
 import { redirect } from 'next/navigation';
 
+import Billboard from '@/components/Billboard';
 import Navbar from '@/components/Navbar';
 
 export default function Home() {
@@ -15,6 +16,7 @@ export default function Home() {
   return (
     <>
       <Navbar />
+      <Billboard />
     </>
   );
 }
