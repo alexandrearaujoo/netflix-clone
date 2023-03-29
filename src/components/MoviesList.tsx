@@ -11,7 +11,6 @@ export default function MovieList({ data, title }: MovieListProps) {
   if (isEmpty(data)) {
     return null;
   }
-
   return (
     <div className="px-4 md:px-12 mt-4 space-y-8">
       <div className="flex flex-col w-full mx-auto md:mx-0">

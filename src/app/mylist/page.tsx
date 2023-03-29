@@ -13,6 +13,7 @@ import { isEmpty } from 'lodash';
 export default function MyList() {
   const { data: favorites = [], isLoading } = useFavorites();
   const { closeModal, isOpen } = useInfoModal();
+  console.log(favorites, isLoading);
 
   return (
     <>

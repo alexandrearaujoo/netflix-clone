@@ -18,7 +18,7 @@ export default function Watch({ params }: WatchProps) {
   const { data: movie } = useMovie(movieId);
 
   return (
-    <div className="h-screen w-screen bg-black">
+    <>
       <nav className="fixed w-full p-4 z-10 flex items-center gap-8 bg-black bg-opacity-70">
         <AiOutlineArrowLeft
           onClick={() => router.push('/')}
@@ -36,6 +36,6 @@ export default function Watch({ params }: WatchProps) {
         controls
         className="h-full w-full"
       ></video>
-    </div>
+    </>
   );
 }

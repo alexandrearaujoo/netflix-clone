@@ -1,11 +1,6 @@
-'use client';
-
-import Navbar from '@/components/Navbar';
-
 export default function Loading() {
   return (
     <>
-      <Navbar />
       <div className="pt-36">
         <div className="px-4 md:px-12 mt-4 space-y-8">
           <div className="grid grid-cols-auto-fit justify-items-center gap-2">

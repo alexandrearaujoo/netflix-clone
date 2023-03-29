@@ -20,7 +20,7 @@ export default function Profiles() {
       {isLoading ? (
         <Loading />
       ) : (
-        <div className="flex items-center h-full justify-center">
+        <>
           <div className="flex flex-col">
             <h1 className="text-3xl md:text-6xl text-white text-center">
               Who is watching ?
@@ -39,7 +39,7 @@ export default function Profiles() {
             </div>
           </div>
           <p className="text-white text-4xl"></p>
-        </div>
+        </>
       )}
     </>
   );
