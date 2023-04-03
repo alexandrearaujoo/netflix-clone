@@ -1,3 +1,5 @@
+'use client';
+
 import { useRouter } from 'next/navigation';
 
 interface MobileMenuProps {
@@ -16,11 +18,7 @@ export default function MobileMenu({ visible }: MobileMenuProps) {
         <ul className="px-3 text-center text-white">
           {[
             { label: 'Home', navigate: '/' },
-            { label: 'Series', navigate: '/' },
-            { label: 'Films', navigate: '/' },
-            { label: 'New & Popular', navigate: '/' },
-            { label: 'My list', navigate: '/mylist' },
-            { label: 'Browse by language', navigate: '/' }
+            { label: 'My list', navigate: '/mylist' }
           ].map(({ label, navigate }) => (
             <li
               className="transition hover:underline"

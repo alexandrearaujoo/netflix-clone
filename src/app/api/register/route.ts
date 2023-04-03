@@ -33,6 +33,8 @@ export async function POST(req: Request) {
 
     return NextResponse.json(user, { status: 200 });
   } catch (error) {
-    return NextResponse.json({ error: `Something went wrong: ${error}` });
+    if (error instanceof Error) {
+      return NextResponse.json(error.message, { status: 400 });
+    }
   }
 }

@@ -1,9 +1,6 @@
-'use client';
+import MovieClient from './MovieClient';
 
-import { useRouter } from 'next/navigation';
-import { AiOutlineArrowLeft } from 'react-icons/ai';
-
-import useMovie from '@/hooks/useMovie';
+import { getMovieById } from '@/actions/getMovies';
 
 interface WatchProps {
   params: {
@@ -11,31 +8,19 @@ interface WatchProps {
   };
 }
 
-export default function Watch({ params }: WatchProps) {
-  const router = useRouter();
+export async function generateMetadata({ params }: WatchProps) {
   const { movieId } = params;
+  const movie = await getMovieById({ movieId });
+  return { title: `Watch ${movie.title}` };
+}
 
-  const { data: movie } = useMovie(movieId);
+export default async function Watch({ params }: WatchProps) {
+  const { movieId } = params;
+  const movie = await getMovieById({ movieId });
 
   return (
-    <>
-      <nav className="fixed w-full p-4 z-10 flex items-center gap-8 bg-black bg-opacity-70">
-        <AiOutlineArrowLeft
-          onClick={() => router.push('/')}
-          className="text-white cursor-pointer"
-          size={40}
-        />
-        <p className="text-white text-1xl md:text-3xl font-bold">
-          <span className="font-light">Wathcing: </span>
-          {movie?.title}
-        </p>
-      </nav>
-      <video
-        src={movie?.videoUrl}
-        autoPlay
-        controls
-        className="h-full w-full"
-      ></video>
-    </>
+    <main className="h-screen w-screen bg-black">
+      <MovieClient movie={movie} />
+    </main>
   );
 }

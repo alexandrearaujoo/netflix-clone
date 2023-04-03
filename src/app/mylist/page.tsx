@@ -1,43 +1,15 @@
-'use client';
+import MyListClient from './MyListClient';
 
-import InfoModal from '@/components/InfoModal';
-import MovieList from '@/components/MoviesList';
-import Navbar from '@/components/Navbar';
+import { getCurrentUser } from '@/actions/getCurrentUser';
+import { getFavorites } from '@/actions/getFavorites';
 
-import Loading from './loading';
+export const metadata = {
+  title: 'My list'
+};
 
-import useFavorites from '@/hooks/useFavorites';
-import { useInfoModal } from '@/hooks/useInfoModal';
-import { isEmpty } from 'lodash';
+export default async function MyList() {
+  const favorites = await getFavorites();
+  const currentUser = await getCurrentUser();
 
-export default function MyList() {
-  const { data: favorites = [], isLoading } = useFavorites();
-  const { closeModal, isOpen } = useInfoModal();
-  console.log(favorites, isLoading);
-
-  return (
-    <>
-      {isLoading ? (
-        <Loading />
-      ) : (
-        <>
-          <Navbar />
-          {isEmpty(favorites) ? (
-            <div className="w-full h-screen flex items-center justify-center">
-              <h1 className="text-center text-white text-xl md:text-3xl">
-                You don&apos;t have movies on your favorites list yet
-              </h1>
-            </div>
-          ) : (
-            <>
-              <div className="pt-28">
-                <MovieList title="My list" data={favorites} />
-              </div>
-              <InfoModal visible={isOpen} onClose={closeModal} />
-            </>
-          )}
-        </>
-      )}
-    </>
-  );
+  return <MyListClient favorites={favorites} currentUser={currentUser} />;
 }

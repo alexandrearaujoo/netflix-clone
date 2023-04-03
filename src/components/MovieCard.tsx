@@ -1,3 +1,5 @@
+'use client';
+
 import { useRouter } from 'next/navigation';
 import { BiChevronDown } from 'react-icons/bi';
 import { BsFillPlayFill } from 'react-icons/bs';
@@ -5,12 +7,15 @@ import { BsFillPlayFill } from 'react-icons/bs';
 import FavoriteButton from './FavoriteButton';
 
 import { useInfoModal } from '@/hooks/useInfoModal';
+import { SafeUser } from '@/types';
+import { Movie } from '@prisma/client';
 
 interface MovieCardProps {
-  data: Record<string, any>;
+  data: Movie;
+  currentUser?: SafeUser | null;
 }
 
-export default function MovieCard({ data }: MovieCardProps) {
+export default function MovieCard({ data, currentUser }: MovieCardProps) {
   const router = useRouter();
 
   const { openModal } = useInfoModal();
@@ -36,9 +41,9 @@ export default function MovieCard({ data }: MovieCardProps) {
             >
               <BsFillPlayFill size={30} />
             </button>
-            <FavoriteButton movieId={data?.id} />
+            <FavoriteButton movieId={data?.id} currentUser={currentUser} />
             <button
-              onClick={() => openModal(data?.id)}
+              onClick={() => openModal(data)}
               className="ml-auto group/item w-6 h-6 lg:w-10 lg:h-10 border-white border-2 rounded-full flex justify-center items-center transition hover:border-neutral-300"
             >
               <BiChevronDown

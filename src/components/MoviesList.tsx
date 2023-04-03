@@ -1,13 +1,21 @@
+'use client';
+
 import MovieCard from './MovieCard';
 
+import { SafeUser } from '@/types';
 import { isEmpty } from 'lodash';
 
 interface MovieListProps {
   data: Record<string, any>[];
   title: string;
+  currentUser?: SafeUser | null;
 }
 
-export default function MovieList({ data, title }: MovieListProps) {
+export default function MovieList({
+  data,
+  title,
+  currentUser
+}: MovieListProps) {
   if (isEmpty(data)) {
     return null;
   }
@@ -17,7 +25,7 @@ export default function MovieList({ data, title }: MovieListProps) {
         <p className="text-white text-2xl font-semibold mb-4">{title}</p>
         <ul className="grid grid-cols-auto-fit  gap-2 lg:justify-items-start">
           {data.map((movie) => (
-            <MovieCard key={movie.id} data={movie} />
+            <MovieCard key={movie.id} data={movie} currentUser={currentUser} />
           ))}
         </ul>
       </div>

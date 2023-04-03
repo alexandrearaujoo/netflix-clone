@@ -1,3 +1,5 @@
+'use client';
+
 import { useCallback, useEffect, useState } from 'react';
 import { AiOutlineClose } from 'react-icons/ai';
 
@@ -5,7 +7,6 @@ import FavoriteButton from './FavoriteButton';
 import PlayButton from './PlayButton';
 
 import { useInfoModal } from '@/hooks/useInfoModal';
-import useMovie from '@/hooks/useMovie';
 
 interface InfoModalProps {
   visible?: boolean;
@@ -15,14 +16,12 @@ interface InfoModalProps {
 export default function InfoModal({ onClose, visible }: InfoModalProps) {
   const [isVisible, setIsVisible] = useState(!!visible);
 
-  const { movieId } = useInfoModal();
-
-  const { data = {}, isLoading } = useMovie(movieId!);
+  const { movie } = useInfoModal();
 
   useEffect(() => {
-    if (isLoading) return;
+    if (!movie) return;
     setIsVisible(!!visible);
-  }, [visible, isLoading]);
+  }, [visible, movie]);
 
   const handleClose = useCallback(() => {
     setIsVisible(false);
@@ -47,8 +46,8 @@ export default function InfoModal({ onClose, visible }: InfoModalProps) {
               autoPlay
               muted
               loop
-              src={data?.videoUrl}
-              poster={data?.thumbnailUrl}
+              src={movie?.videoUrl}
+              poster={movie?.thumbnailUrl}
             ></video>
             <button
               onClick={handleClose}
@@ -58,19 +57,19 @@ export default function InfoModal({ onClose, visible }: InfoModalProps) {
             </button>
             <div className="absolute bottom-[10%] left-10">
               <p className="text-white text-3xl md:text-4xl h-full lg:text-5xl font-bold mb-8">
-                {data?.title}
+                {movie?.title}
               </p>
               <div className="flex gap-4 items-center">
-                <PlayButton movieId={data?.id} />
-                <FavoriteButton movieId={data?.id} />
+                <PlayButton movieId={movie?.id} />
+                <FavoriteButton movieId={movie?.id} />
               </div>
             </div>
           </div>
           <div className="px-12 py-8">
             <p className="text-green-400 font-semibold text-lg">New</p>
-            <p className="text-white text-lg">{data?.duration}</p>
-            <p className="text-white text-lg">{data?.genre}</p>
-            <p className="text-white text-lg">{data?.description}</p>
+            <p className="text-white text-lg">{movie?.duration}</p>
+            <p className="text-white text-lg">{movie?.genre}</p>
+            <p className="text-white text-lg">{movie?.description}</p>
           </div>
         </div>
       </div>

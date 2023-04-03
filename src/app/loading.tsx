@@ -1,9 +1,6 @@
-import Navbar from '@/components/Navbar';
-
 export default function Loading() {
   return (
     <>
-      <Navbar />
       <div className="relative h-[56.25vw]">
         <div className="absolute top-[30%] md:top-[40%] ml-4 md:ml-16">
           <p className="text-transparent bg-white/60 opacity-5 rounded-md h-14 text-1xl md:text-5xl w-96 lg:text-6xl font-bold drop-shadow-xl animate-skeleton-body" />

@@ -8,9 +8,15 @@ import AccountMenu from './AccountMenu';
 import MobileMenu from './MobileMenu';
 import NavbarItem from './NavbarItem';
 
+import { SafeUser } from '@/types';
+
+interface NavBarProps {
+  currentUser?: SafeUser | null;
+}
+
 const TOP_OFFSET = 66;
 
-export default function Navbar() {
+export default function Navbar({ currentUser }: NavBarProps) {
   const [showMobileMenu, setShowMobileMenu] = useState(false);
   const [showAccountMenu, setShowAccountMenu] = useState(false);
   const [showBackground, setShowBackground] = useState(false);
@@ -56,11 +62,7 @@ export default function Navbar() {
         <ul className="flex-row ml-8 gap-7 hidden lg:flex">
           {[
             { label: 'Home', navigate: '/' },
-            { label: 'Series', navigate: '/' },
-            { label: 'Films', navigate: '/' },
-            { label: 'New & Popular', navigate: '/' },
-            { label: 'My list', navigate: '/mylist' },
-            { label: 'Browse by language', navigate: '/' }
+            { label: 'My list', navigate: '/mylist' }
           ].map(({ label, navigate }) => (
             <NavbarItem key={label} label={label} navigate={navigate} />
           ))}
@@ -96,7 +98,7 @@ export default function Navbar() {
                 showAccountMenu ? 'rotate-180' : 'rotate-0'
               } text-white transition`}
             />
-            <AccountMenu visible={showAccountMenu} />
+            <AccountMenu visible={showAccountMenu} currentUser={currentUser} />
           </div>
         </div>
       </div>

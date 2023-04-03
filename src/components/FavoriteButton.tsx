@@ -1,41 +1,25 @@
-import { useCallback, useMemo } from 'react';
+'use client';
+
 import { AiOutlinePlus, AiOutlineCheck } from 'react-icons/ai';
 
-import useCurrentUser from '@/hooks/useCurrentUser';
-import useFavorites from '@/hooks/useFavorites';
-import axios from 'axios';
+import { useFavorite } from '@/hooks/useFavorites';
+import { SafeUser } from '@/types';
 
 interface FavoriteButtonProps {
-  movieId: string;
+  movieId?: string;
+  currentUser?: SafeUser | null;
 }
 
-export default function FavoriteButton({ movieId }: FavoriteButtonProps) {
-  const { mutate: mutateFavorites } = useFavorites();
-  const { data: currentUser, mutate } = useCurrentUser();
+export default function FavoriteButton({
+  movieId,
+  currentUser
+}: FavoriteButtonProps) {
+  const { hasFavorited, toggleFavorite } = useFavorite({
+    movieId,
+    currentUser
+  });
 
-  const isFavorite = useMemo(() => {
-    const list = currentUser?.favoriteIds || [];
-
-    return list.includes(movieId);
-  }, [currentUser, movieId]);
-
-  const toggleFavorite = useCallback(async () => {
-    let response;
-
-    if (isFavorite) {
-      response = await axios.delete('/api/favorite', { data: { movieId } });
-    } else {
-      response = await axios.post('/api/favorite', { movieId });
-    }
-
-    const updatedFavoriteIds = response?.data?.favoriteIds;
-
-    mutate({ ...currentUser, favoritesId: updatedFavoriteIds });
-
-    mutateFavorites();
-  }, [movieId, isFavorite, currentUser, mutate, mutateFavorites]);
-
-  const Icon = isFavorite ? AiOutlineCheck : AiOutlinePlus;
+  const Icon = hasFavorited ? AiOutlineCheck : AiOutlinePlus;
 
   return (
     <button

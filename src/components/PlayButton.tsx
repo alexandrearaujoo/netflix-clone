@@ -1,8 +1,9 @@
+'use client';
 import { useRouter } from 'next/navigation';
 import { BsFillPlayFill } from 'react-icons/bs';
 
 interface PlayButtonProps {
-  movieId: string;
+  movieId?: string;
 }
 
 export default function PlayButton({ movieId }: PlayButtonProps) {

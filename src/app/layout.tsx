@@ -1,21 +1,22 @@
-'use client';
+import ToasterProvider from '@/provider/ToastProvider';
 
 import './globals.css';
-import { Session } from 'next-auth';
-import { SessionProvider } from 'next-auth/react';
+
+export const metadata = {
+  title: 'Home'
+};
 
 export default function RootLayout({
-  children,
-  session
+  children
 }: {
   children: React.ReactNode;
-  session: Session;
 }) {
   return (
     <html lang="en">
-      <SessionProvider session={session}>
-        <body>{children}</body>
-      </SessionProvider>
+      <body>
+        <ToasterProvider />
+        {children}
+      </body>
     </html>
   );
 }

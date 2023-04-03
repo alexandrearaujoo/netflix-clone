@@ -1,14 +1,18 @@
+'use client';
+
 import { signOut } from 'next-auth/react';
 
-import useCurrentUser from '@/hooks/useCurrentUser';
+import { SafeUser } from '@/types';
 
 interface AccountMenuProps {
   visible?: boolean;
+  currentUser?: SafeUser | null;
 }
 
-export default function AccountMenu({ visible }: AccountMenuProps) {
-  const { data: currentUser } = useCurrentUser();
-
+export default function AccountMenu({
+  visible,
+  currentUser
+}: AccountMenuProps) {
   if (!visible) return null;
 
   return (
