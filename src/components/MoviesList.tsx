@@ -3,10 +3,11 @@
 import MovieCard from './MovieCard';
 
 import { SafeUser } from '@/types';
+import { Movie } from '@prisma/client';
 import { isEmpty } from 'lodash';
 
 interface MovieListProps {
-  data: Record<string, any>[];
+  data: Movie[];
   title: string;
   currentUser?: SafeUser | null;
 }
