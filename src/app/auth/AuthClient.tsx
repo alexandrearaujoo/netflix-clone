@@ -41,24 +41,27 @@ export default function AuthClient() {
     mode: 'all'
   });
 
-  const login = useCallback(async (data: AuthSchema) => {
-    const { email, password } = data;
+  const login = useCallback(
+    async (data: AuthSchema) => {
+      const { email, password } = data;
 
-    await signIn('credentials', {
-      email,
-      password,
-      redirect: false
-    }).then((callback) => {
-      if (callback?.ok) {
-        toast.success('Logged in');
-        setCredentialsError(false);
-        router.push('/profiles');
-      }
-      if (callback?.error) {
-        setCredentialsError(true);
-      }
-    });
-  }, []);
+      await signIn('credentials', {
+        email,
+        password,
+        redirect: false
+      }).then((callback) => {
+        if (callback?.ok) {
+          toast.success('Logged in');
+          setCredentialsError(false);
+          router.push('/profiles');
+        }
+        if (callback?.error) {
+          setCredentialsError(true);
+        }
+      });
+    },
+    [router]
+  );
 
   const signin = useCallback(
     async (data: AuthSchema) => {

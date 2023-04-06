@@ -2,7 +2,6 @@ import { NextResponse } from 'next/server';
 
 import { getCurrentUser } from '@/actions/getCurrentUser';
 import prismadb from '@/lib/prisma';
-import { without } from 'lodash';
 
 interface IParams {
   movieId?: string;
